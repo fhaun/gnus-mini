@@ -1,0 +1,36 @@
+#+TITLE: Gnus Konfiguration (maxi)
+#+OPTIONS: toc:nil
+
+* Inhalt							   :TOC_4_gh:
+ - [[#vorschau-der-nachricht-die-man-gerade-schreibt][Vorschau der Nachricht die man gerade schreibt]]
+
+* Vorschau der Nachricht die man gerade schreibt
+
+Gnus bietet mit =mml-preview= eine Vorschaufunktion beim Verfassen
+von Nachrichten an. Hier mal eine Funktion die das für mich etwas
+bequemer macht. Das Ganze habe ich dann auf =F5= gelegt. Mit Prefix,
+also vorher =C-u= drücken, sieht man das Rohformat. Die Voransicht
+wird mit =q= verlassen.
+
+#+BEGIN_SRC emacs-lisp
+  (defun my-mml-preview (&optional raw)
+    "Preview wrapper, when *Group* doesn't exists."
+    (interactive "P")
+    (if (get-buffer "*Group*")
+        (progn
+          (mml-preview raw)
+          (delete-other-windows))
+      (create-file-buffer "*Group*")
+      (mml-preview raw)
+      (delete-other-windows)
+      (kill-buffer "*Group*")))
+
+  (define-key message-mode-map [f5]
+    'my-mml-preview)
+#+END_SRC
+
+Hier die Voransicht einer Nachricht im Rohformat. Ganz praktisch wenn
+man ein paar Einstellungen verändert hat und mal sehen möchte wie die
+Nachricht abgeschickt würde.
+
+[[file:images/gnus-art-raw-preview.jpg]]

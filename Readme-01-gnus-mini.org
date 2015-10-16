@@ -1,0 +1,419 @@
+#+TITLE: Gnus Konfiguration (mini)
+#+OPTIONS: toc:nil
+
+# toc generieren: toc-org-insert-toc
+
+Minimal Setup für Gnus. Plus einige Besonderheiten um Emacs/Gnus unter
+Windows einzurichten. In diesem Dokument geht es wirklich nur darum,
+mit dem *minimalstem* Setup News von genau *einem* Server mit Gnus zu
+lesen und zu schreiben. Weitere Einstellungen sind in [[file:Readme-gnus-midi.org][gnus-midi]] zu
+finden.
+
+* Inhalt							   :TOC_4_gh:
+ - [[#das-home-verzeichnis][Das HOME Verzeichnis]]
+ - [[#emacs-installieren][Emacs installieren]]
+   - [[#unixlinux][Unix/Linux]]
+   - [[#windows][Windows]]
+ - [[#allgemeines-zu-dateien-im-home-verzeichnis][Allgemeines zu Dateien im HOME Verzeichnis]]
+ - [[#emacs-lisp][Emacs Lisp]]
+ - [[#emacs-und-die-tastatur][Emacs und die Tastatur]]
+ - [[#dateien][Dateien]]
+ - [[#newsserver-mit-anmeldung][Newsserver mit Anmeldung]]
+ - [[#name-und-mailadresse][Name und Mailadresse]]
+ - [[#message-id][Message ID]]
+ - [[#newsserver-angeben][Newsserver angeben]]
+ - [[#gespeicherte-beiträge][Gespeicherte Beiträge]]
+ - [[#erstes-ergebnis][Erstes Ergebnis]]
+ - [[#gruppen-abonnieren][Gruppen abonnieren]]
+ - [[#in-eine-gruppe-schreiben-oder-antworten][In eine Gruppe schreiben oder Antworten.]]
+ - [[#topic-mode][Topic Mode]]
+ - [[#gnus-unplugged-gnus-agent][Gnus Unplugged, Gnus Agent]]
+ - [[#zum-abschluss][Zum Abschluss]]
+ - [[#weitere-hilfe][Weitere Hilfe]]
+   - [[#gnus-newsgroup-deutsch][Gnus Newsgroup (deutsch)]]
+   - [[#gnus-info-manual-englisch][Gnus Info Manual (englisch)]]
+   - [[#gnustutorial-im-emacswiki-englisch][GnusTutorial im EmacsWiki (englisch)]]
+   - [[#kleines-einführungs-video-englisch][Kleines Einführungs Video (englisch)]]
+
+* Das HOME Verzeichnis
+
+Unix/Linux User müssen da jetzt nix machen. Aber unter Windows ist
+etwas Vorbereitung nötig.
+
+In dem HOME Verzeichnis liegen später die Konfigurationsdateien für
+Emacs und Gnus. Von daher muss HOME in der Umgebungsvariable gesetzt
+werden und auf ein Verzeichnis zeigen worauf man vollen Zugriff hat.
+
+Hier mal ein Beispiel für einen Benutzer der mit mustermann eingeloggt
+ist und keine Admin Rechte hat.
+
+Nach *c:\users\mustermann\* gehen und ein Verzeichnis mit dem Namen
+/home/ erstellen. In dem Verzeichnis /home/ dann noch das Verzeichnis
+/programme/ erstellen.
+
+Die Verzeichnisstruktur sieht dann so aus:
+
+#+BEGIN_SRC
+c:\users\mustermann\home
+c:\users\mustermann\home\programme
+#+END_SRC
+
+Nun die Systemsteuerung öffnen.
+
+Systemsteuerung /Alle-Systemsteuerungselemente /System
+/Erweiterte-Systemeigenschaften /Umgebungsvariablen. Bei
+Benutzervariablen für mustermann *Neu* klicken. Name der Variablen
+*HOME*, Wert *c:\users\mustermann\home*.
+
+Jetzt einmal ausloggen wieder einloggen damit die Umgebungsvariable
+HOME ausgelesen werden kann.
+
+* Emacs installieren
+
+** Unix/Linux
+
+Unter Unix/Linux lässt sich Emacs mit den entsprechenden Paket
+Managern installieren. Unterstützung für einige Bildformate sollten
+dann schon dabei sein.
+
+** Windows
+
+In der Regel kommt Emacs ohne Installer daher. Hier mal zwei Quellen
+wo Emacs Binaries zum Download angeboten werden.
+
+- 64-Bit
+
+  Sehr praktisch ist der Windows 64-Bit Emacs da schon die
+  Unterstützung für Bildformate enthalten ist.\\
+  http://sourceforge.net/projects/emacsbinw64/files/release/
+
+
+- 32-Bit
+
+  Benötigt wird =emacs-nn.n-bin-i686-mingw32.zip=. Bei nn.n auf die
+  größte Version achten.\\
+  https://ftp.gnu.org/gnu/emacs/windows/
+
+  Zum Anzeigen weiterer Bildformate wie png, jpg, gif
+  usw. *ezwinports* besuchen und die entsprechenden /bin/ Dateien
+  Dateien holen. Für png, zum Anzeigen der Face Header wäre das
+  =libpng-1.6.12-w32-bin.zip=.
+
+  *ezwinports*, Ports of Unix and GNU software to MS-Windows\\
+  https://sourceforge.net/projects/ezwinports/files/
+
+
+Emacs dann nach =c:\users\mustermann\home\programme= entpacken. Der
+Pfad sieht dann so aus:
+
+=c:\users\mustermann\home\programme\emacs=
+
+Die ausführbaren Dateien liegen in:
+
+=c:\users\mustermann\home\programme\emacs\bin=
+
+Bei dem 32-Bit Emacs jetzt den Inhalt des bin Ordners von
+=libpng-1.6.12-w32-bin.zip= nach
+=c:\users\mustermann\home\programme\emacs\bin= entpacken, aber
+keine Dateien überschreiben lassen.
+
+Um die x-face header anzuzeigen wird compface und netpbm
+benötigt. Gilt für alle Emacs Versionen.
+
+- http://sourceforge.net/projects/gnuwin32/files/compface/
+- http://sourceforge.net/projects/gnuwin32/files/netpbm/
+
+Aus den Paketen braucht man allerdings nur folgende Dateien:
+
+- compface.exe
+- compface1.dll
+- icontopbm.exe
+- libnetpbm10.dll
+- uncompface.exe
+- xbmtopbm.exe
+
+Die Dateien auch in das Emacs bin Verzeichnis entpacken.
+
+Gestartet wird Emacs mit runemacs.exe. Am besten eine Verknüpfung
+erstellen und in den Eigenschaften /Ausführen in:/
+*c:\users\mustermann\home* eintragen.
+
+* Allgemeines zu Dateien im HOME Verzeichnis
+
+Das =~/= steht für das Home Verzeichnis. Wenn also von der Datei
+=~/.emacs= die Rede ist, handelt es sich um die Datei =.emacs= im HOME
+Verzeichnis.
+
+Im Falle von Mustermann auf Windows:
+
+=c:\Users\mustermann\home\.emacs=
+
+und unter Unix/Linux:
+
+=/home/mustermann/.emacs=
+
+* Emacs Lisp
+
+Keine Sorge, nur ganz kurz.
+
+Die Eintragungen in der =~/.emacs= und =~/.gnus.el= erfolgen in Emacs
+Lisp]]. Das ist das Ding mit den ganz vielen runden Klammern. Im Menü
+kann man beim Emacs "Highlight Matching Parentheses"
+einschalten. Hilft enorm um Fehler zu vermeiden.
+
+Alles nach einem Semikolon wird als Kommentar betrachtet und nicht
+ausgewertet.
+
+* Emacs und die Tastatur
+
+Auch nur ganz kurz.
+
+=C-x C-f= Steuerung gedrückt halten, x drücken, x loslassen und f
+drücken. Dieser Befehl dient zum Öffnen von Dateien.
+
+=C-x C-s= Steuerung gedrückt halten, x drücken, x loslassen und s
+drücken. Dieser Befehl dient zum Speichern von Dateien.
+
+=C-x d= Steuerung gedrückt halten, x drücken, Steuerung und x
+loslassen und d drücken. Dieser Befehl listet das aktuelle Verzeichnis
+auf.
+
+=M-x= bedeutet Alt gedrückt halten und x drücken.
+
+=C-g= sollte man sich besonders gut merken. Steuerung gedrückt halten
+und g drücken. Damit beendet man Tastatur Abfragen und Lisp Code der
+gerade ausgeführt wird. Also wenn es irgendwo mal nicht weiter geht
+oder sich bei der Eingabe verhaspelt C-g drücken.
+
+* Dateien
+
+- ~/.authinfo :: Wird benötigt wenn man sich beim Newsserver anmelden
+                 muss.
+- ~/.emacs :: Konfiguration für Emacs.
+- ~/.gnus.el :: Konfiguration für Gnus.
+
+* Newsserver mit Anmeldung
+
+Erfolgt die Anmeldung beim Newsserver mit Passwort, ist ein Eintrag in
+der =~/.authinfo= notwendig. Beispiel für albasani, LOGIN und PASSWORT
+mit den Zugangsdaten ersetzen.
+
+=machine reader.albasani.net login LOGIN password PASSWORT=
+
+* Name und Mailadresse
+
+Da Name und Mailadresse auch für andere Dinge im Emacs sinnvoll sind,
+werden die Angaben dafür in der =~/.emacs= gemacht.
+
+#+BEGIN_SRC emacs-lisp
+  (setq user-full-name "Max Mustermann")
+  (setq user-mail-address "name@invalid.com")
+#+END_SRC
+
+* Message ID
+
+Falls man sich damit nicht auskennt und nicht weiter herumschlagen
+will, dann dies hier in die =~/.gnus.el= und der Newsserver setzt die
+Message ID selbst.
+
+#+BEGIN_SRC emacs-lisp
+  (setq message-required-news-headers
+      (delq 'Message-ID message-required-news-headers))
+#+END_SRC
+
+Ansonsten gibt es mehrere Möglichkeiten.
+
+In die ~/.gnus.el das hier:
+
+#+BEGIN_SRC emacs-lisp
+  (setq message-user-fqdn "yourmachine.yourdomain.tld")
+#+END_SRC
+
+oder das hier in die ~/.emacs:
+
+#+BEGIN_SRC emacs-lisp
+  (setq system-name "yourmachine.yourdomain.tld")
+#+END_SRC
+
+'yourmachine' ist der Computer Name und 'yourdomain.tld' eine Domain
+die einem gehört oder erlaubt ist zu nutzen. Es gibt einige Anbieter
+für Pseudo Domains, falls man keine Eigene hat.
+
+Eine weitere Möglichkeit ist die Datei hosts anzupassen. Für
+`yourmachine` das eintragen was in hostname steht. Habe ich aber nur
+unter Debian Linux getestet.
+
+#+BEGIN_SRC
+127.0.0.1    localhost
+127.0.1.1    yourmachine.yourdomain.tld yourmachine
+#+END_SRC
+
+* Newsserver angeben
+
+Die Eintragungen erfolgen in der =~/.gnus.el=. Beispiel um News von
+localhost beziehen.
+
+#+BEGIN_SRC emacs-lisp
+  (setq gnus-select-method '(nntp "localhost"))
+#+END_SRC
+
+Beispiel um News von albasani zu beziehen.
+
+#+BEGIN_SRC emacs-lisp
+  (setq gnus-select-method '(nntp "reader.albasani.net"))
+#+END_SRC
+
+* Gespeicherte Beiträge
+
+Beiträge die man geschrieben hat werden gespeichert. Gnus bietet
+mehrere Möglichkeiten in welcher Art die Beiträge gespeichert
+werden. *Voreingestellt* ist das nnfolder Backend, hier geht alles in
+eine Datei.
+
+Ich bevorzuge dafür das nnml Backend. Hie werden im Gegensatz zu
+nnfolder die Postings in einzelne Dateien gespeichert. Hat auch noch
+ein paar Vorteile wenn man Gnus für Emails benutzt.
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'gnus-secondary-select-methods '(nnml ""))
+#+END_SRC
+
+Lange Namen für Verzeichnisse verwenden.
+
+#+BEGIN_SRC emacs-lisp
+  (setq nnmail-use-long-file-names t)
+#+END_SRC
+
+* Erstes Ergebnis
+
+Emacs neu starten und M-x gnus und Enter drücken. Im Emacs Jargon wäre
+das =M-x gnus RET=. Gnus kann auch über das Menü unter Tools
+aufgerufen werden.
+
+Uhh, da sind ja gar keine Gruppen.
+
+[[file:images/gnus-01.jpg]]
+
+* Gruppen abonnieren
+
+Es gibt mehrere Methoden. Hier meine bevorzugte Methode über den
+Server Buffer. =^= drücken und bei den meisten Tastaturen noch einmal
+die Leertaste. Ganz faule drücken einfach zweimal =^=. ;-)
+
+Jetzt ist man im Server Buffer.
+
+[[file:images/gnus-server.jpg]]
+
+Mit dem Cursor auf den Server gehen und Enter drücken.
+
+[[file:images/gnus-02.jpg]]
+
+Jetzt den Cursor auf eine Gruppe setzen die man abonnieren möchte.
+
+[[file:images/gnus-03.jpg]]
+
+Abonniert wird die Gruppe indem man =u= drückt.
+
+[[file:images/gnus-04.jpg]]
+
+Jezt mit =q= den Server verlassen und nochmal =q= um den Server Buffer
+zu verlassen.
+
+[[file:images/gnus-05.jpg]]
+
+Jetzt befindet man sich wieder im Group Buffer. Einmal =g= drücken um
+alles zu aktualisieren.
+
+Auf die Gruppe gehen und Enter drücken. Die Frage nach der Anzahl der
+Artikel mit einem sinnvollen Wert bestätigen. Nun landet man im
+Summary Buffer.
+
+[[file:images/gnus-06.jpg]]
+
+Drückt man Enter im Summary Buffer wird darunter der entsprechende
+Artikel angezeigt.
+
+[[file:images/gnus-07.jpg]]
+
+* In eine Gruppe schreiben oder Antworten.
+
+Falls in der Gruppen Ansicht nichts angezeigt wird =L= (großes L)
+drücken, damit auch Gruppen ohne neue Nachrichten angezeigt
+werden. Nun die Gruppe betreten indem man den Cursor drauf setzt und
+Enter drückt.
+
+Eine neue Nachricht in die Gruppe schreibt man indem man =a=
+drückt. Eine Antwort auf ein Posting mit =F=.
+
+
+[[file:images/gnus-08.jpg]]
+
+Ist man mit Schreiben fertig, =C-c C-c= drücken damit das Posting
+versendet wird.
+
+Die Gruppe kann man dann wie so oft mit =q= verlassen.
+
+* Topic Mode
+
+Wenn man viele Newsgruppen und/oder Mail Gruppen hat, kann man den
+Group Buffer mit "Group Topic" übersichtlicher gestalten. Das geht
+dann in die =~/.gnus.el=.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
+#+END_SRC
+
+Im Menü befindet sich dann der Entrag "Topics". Dort kann man neue
+Topics anlegen, verschieben und umbenennen. Enfach mal ein wenig
+rumspielen. Im Moment kann man noch nix kaputt machen. Wir arbeiten
+uns ja erstmal rein. ;-)
+
+* Gnus Unplugged, Gnus Agent
+
+Den Modus kann man mit folgender Zeile in der =~/.gnus.el= abschalten.
+
+#+BEGIN_SRC emacs-lisp
+  (setq gnus-agent nil)
+#+END_SRC
+
+Da dieser Modus (Offline Modus) nicht ganz einfach zu verstehen ist,
+lasse ich den hier erstmal weg. Wer über teure Verbindungen ins Netz
+geht sollte sollte den Modus allerdings eingeschaltet lassen und vorab
+die Benutzung im Info Manual lesen.
+
+- https://www.gnu.org/software/emacs/manual/html_node/gnus/Agent-Basics.html
+
+* Zum Abschluss
+
+So, hier ist *gnus-mini* zu Ende.
+
+Für den Anfang empfehle ich mal zu gucken wie Emacs so tickt. Dazu im
+Menü auf Help gehen und "Emacs Tutorial (choose language)" wählen.
+
+Mit Gnus würde ich auch erstmal ein wenig rumspielen bevor man
+ernsthaft damit arbeitet. Befehle können auch über das Menü gewählt
+werden, da steht außerdem der entsprechende Tastatur Befehl bei.
+
+Wenn man meint alles im Griff zu haben und den ganzen Plumpquatsch der
+ersten Spielerei loswerden will, kann man folgende Verzeichnisse und
+Dateien löschen: =~/Mail/=, =~/News/=, =~/.newsrc= und
+=~/.newsrc.eld=. Gnus fängt dann wieder bei null an.
+
+* Weitere Hilfe
+
+** Gnus Newsgroup (deutsch)
+
+de.comm.software.gnus
+
+** Gnus Info Manual (englisch)
+
+=C-h i= drücken und zum Gnus Abschnitt navigieren.
+
+** GnusTutorial im EmacsWiki (englisch)
+
+http://www.emacswiki.org/emacs/GnusTutorial
+
+
+** Kleines Einführungs Video (englisch)
+
+[[http://www.youtube.com/watch?v=t8LOGxYB6xg][file:http://img.youtube.com/vi/t8LOGxYB6xg/0.jpg]]

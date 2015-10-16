@@ -1,0 +1,257 @@
+#+TITLE: Gnus Konfiguration (midi)
+#+OPTIONS: toc:nil
+
+Voraussetzung ist, dass Gnus soweit funktioniert und die Eintragungen
+wie in [[file:Readme-01-gnus-mini.org][gnus-mini]] gemacht wurden. Wenn nicht anders angegeben, werden
+alle Einstellung in der =~/.gnus.el= gemacht.
+
+* Erweiterte (midi) Konfiguration für Gnus				:TOC_4_gh:
+ - [[#passwort-für-cancel-und-supersede][Passwort für cancel und supersede]]
+ - [[#zweiten-newsserver-eintragen][Zweiten Newsserver eintragen]]
+ - [[#gnus-und-mail][Gnus und Mail]]
+   - [[#mail-versenden][Mail versenden]]
+   - [[#gmail-imap][Gmail Imap]]
+   - [[#mail-abholen-über-pop3-und-spool][Mail abholen über pop3 und spool]]
+ - [[#references-und-message-ids-finden][References und Message-ID's finden]]
+ - [[#warnung-ausgeben-bei-mail-antwort-in-news][Warnung ausgeben bei Mail Antwort in News]]
+ - [[#visuelle-verbesserungen][Visuelle Verbesserungen]]
+   - [[#aktuelle-zeile-hervorheben][Aktuelle Zeile hervorheben]]
+   - [[#threading-zeichen-aufhübschen][Threading Zeichen aufhübschen]]
+ - [[#posting-styles][Posting Styles]]
+   - [[#x-face-header-über-posting-styles-einstellen][X-face Header über Posting Styles einstellen]]
+   - [[#noch-mehr-posting-styles][Noch mehr Posting Styles]]
+
+* Passwort für cancel und supersede
+
+Man kann das ~canlock-password~ auch in der ~/.gnus.el setzen. Beim
+ersten Posting wird das Passwort in die ~/.emacs geschrieben, zu
+finden unter custom-set-variables. Mann kann es also da raus fischen
+und hier eintragen. Den Eintrag in der ~/.emacs kann man dann löschen.
+
+Das ist ganz praktisch wenn man von mehren Rechnern aus schreibt. So
+hat man überall das gleiche Passwort und kann egal auf welcher
+Maschine man gerade ist Artikel canceln bzw. superseden.
+
+#+BEGIN_SRC emacs-lisp
+  (setq canlock-password "GEHEIM"
+        canlock-password-for-verify canlock-password)
+#+END_SRC
+
+* Zweiten Newsserver eintragen
+
+Bisher wurde nur ein Newsserver angegeben, um von einem weiteren
+Server zu lesen:
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'gnus-secondary-select-methods '(nntp "news.gmane.org"))
+#+END_SRC
+
+Falls Zugriff mit Anmeldung die entsprechenden Angaben in der
+~/.authinfo machen. Die Gruppen kann man wie zuvor über den Server
+Buffer abonnieren, also im Group Buffer =^= drücken.
+
+* Gnus und Mail
+
+** Mail versenden
+
+Will man auf einen News Beitrag per Mail antworten. Hier ein Beispiel
+für Arcor.
+
+#+BEGIN_SRC emacs-lisp
+  (setq message-send-mail-function 'smtpmail-send-it)
+  (setq smtpmail-default-smtp-server "mail.arcor.de")
+#+END_SRC
+
+In der ~/.authinfo noch die Zugangsdaten eintragen.
+
+
+~machine mail.arcor.de port 25 login USER password PASSWORD~
+
+
+Das Beispiel geht allerdings davon aus, dass für =user-mail-address=
+die Arcor Mailadresse eingetragen ist.
+
+** Gmail Imap
+
+Um Mails abzuholen ist dieser Eintrag in der ~/.gnus.el nötig:
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'gnus-secondary-select-methods
+               '(nnimap "gmail"
+                        (nnimap-address "imap.gmail.com")
+                        (nnimap-server-port "993")
+                        (nnimap-stream ssl)))
+#+END_SRC
+
+Und dieser in der ~/.authinfo:
+
+~machine imap.gmail.com login USER password PASSWORD port imap~
+
+Für weitere Einstellungen verweise ich auf [[http://www.emacswiki.org/emacs/GnusGmail][EmacsWiki]].
+
+** Mail abholen über pop3 und spool
+
+Bei diesem Beispiel wird Mail abgefragt über den lokalen Spool,
+pop3server1 und pop3server2. Wenn Spool nicht benötigt wird, die Zeile
+mit =(file)= löschen. Die Angaben in dem Beispiel müssen natürlich
+noch angepasst werden. Die Angabe =:leave 14= belässt die Mails 14
+Tage auf dem Server bevor sie gelöscht werden. Den Wert kann man auch
+höher setzen oder die Zeile löschen bzw. auf =nil= setzen, um die
+Mails auf dem Server sofort zu entfernen.
+
+#+BEGIN_SRC emacs-lisp
+  (setq mail-sources
+        '(
+          (file)
+          (pop :server "pop3server1"
+               :user "USER"
+               :password "PASSWORD"
+               :leave 14
+               )
+          (pop :server "pop3server2"
+               :user "USER"
+               :password "PASSWORD"
+               :leave 14
+               )
+#+END_SRC
+
+Falls noch nicht gemacht, diese beiden Zeilen eintragen.
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'gnus-secondary-select-methods '(nnml ""))
+  (setq nnmail-use-long-file-names t)
+#+END_SRC
+
+Damit Gnus die Mail auch sofort holt, dies hier eintragen:
+
+#+BEGIN_SRC emacs-lisp
+  (setq nnml-get-new-mail t)
+#+END_SRC
+
+* References und Message-ID's finden
+
+Beispiel um für die Suche nach References und Message-ID's weitere
+Newsserver einzubeziehen.
+
+#+BEGIN_SRC emacs-lisp
+  (setq gnus-refer-article-method
+        '(current
+          (nntp "my-newsserver")
+          (nntp "news.gmane.org")
+          ))
+#+END_SRC
+
+* Warnung ausgeben bei Mail Antwort in News
+
+#+BEGIN_SRC emacs-lisp
+  (setq gnus-confirm-mail-reply-to-news t)
+#+END_SRC
+
+* Visuelle Verbesserungen
+
+** Aktuelle Zeile hervorheben
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'gnus-server-mode-hook 'hl-line-mode)
+  (add-hook 'gnus-group-mode-hook 'hl-line-mode)
+  (add-hook 'gnus-summary-mode-hook 'hl-line-mode)
+#+END_SRC
+
+** Threading Zeichen aufhübschen
+
+#+BEGIN_SRC emacs-lisp
+  (when (display-graphic-p)
+    (setq
+     gnus-sum-thread-tree-indent          "  "
+     gnus-sum-thread-tree-root            "●"
+     gnus-sum-thread-tree-false-root      "◯"
+     gnus-sum-thread-tree-single-indent   "◎"
+     gnus-sum-thread-tree-leaf-with-other "├─► "
+     gnus-sum-thread-tree-vertical        "│ "
+     gnus-sum-thread-tree-single-leaf     "╰─► "))
+#+END_SRC
+
+* Posting Styles
+
+Posting Styles erlauben es individuelle Einstellungen je Gruppe zu
+machen, egal ob Mail oder News. Hier mal eine fast leere Vorlage, die
+zeigen soll wie Posting Styles angewendet werden. Als Beispiel dient
+der Organization Header. Alle Möglichkeiten sind im Manual zu finden:
+=C-h i m Gnus RET m Posting Styles RET= oder online unter [[https://www.gnu.org/software/emacs/manual/html_node/gnus/Posting-Styles.html][Posting
+Styles]].
+
+#+BEGIN_SRC emacs-lisp
+  (setq gnus-posting-styles
+        '(
+          (".*"
+           ;; Einstellung für alle Gruppen
+           (Organization "Alle")
+           )
+          ((message-news-p)
+           ;; Einstellung für alle Newsgruppen
+           (Organization "News")
+           )
+          ((message-mail-p)
+           ;; Einstellung für alle Mailgruppen
+           (Organization "Mail")
+           )
+          ("de\\.test"
+           ;; Einstellung für die Gruppe de.test
+           (Organization "Test")
+           )
+          ))
+#+END_SRC
+
+** X-face Header über Posting Styles einstellen
+
+Vorab, Ein xface kann man sich auch online erstellen lassen: [[http://www.dairiki.org/xface/][Online
+X-Face Converter]]. Den Inhalt der Ausgabe *ohne* das "X-Face: " (auch
+das Leerzeichen nicht) in eine Datei kopieren, für das Beispiel wäre
+das =~/xfacefile=.
+
+Hier ein Beispiel wie man das x-face aus einer Datei einbindet, wenn
+man in Newsgroups eine Nachricht schreibt.
+
+#+BEGIN_SRC emacs-lisp
+  (setq gnus-posting-styles
+        '(
+          ((message-news-p)
+           (x-face-file "~/xfacefile")
+           )
+          ))
+#+END_SRC
+
+** Noch mehr Posting Styles
+
+Hier noch ein Beispiel. Entsprechende Zeilen anpassen
+bzw. löschen. Hier soll auch mal gezeigt werden wie man automatisch
+das Wörterbuch wechselt, einen Reply Header setzt und so weiter.
+
+#+BEGIN_SRC emacs-lisp
+  (setq gnus-posting-styles
+        '(
+          (".*"
+           (Organization "Alle")
+           (X-Url "https://www.gnu.org/software/emacs/manual/gnus.html")
+           (eval (ispell-change-dictionary "deutsch"))
+           )
+          ((message-news-p)
+           (Organization "News")
+           (x-face-file "~/xfacefile")
+           (signature "https://www.gnu.org/software/emacs/emacs.html")
+           (Reply-To "VORNAME NACHNAME <MY-REPLAY-ADRESS@INVALID.COM>")
+           )
+          ((message-mail-p)
+           (Organization "Mail")
+           (signature-file "~/mail-signature")
+           (X-Face nil)
+           )
+          ("^gmane"
+           (eval (ispell-change-dictionary "english")))
+          ("de.\\(alt\\.\\)?test"
+           (Organization "Test")
+           (Keywords "ignore - no reply")
+           (body "\nDies ist der Test aller Tests.")
+           )
+          ))
+#+END_SRC

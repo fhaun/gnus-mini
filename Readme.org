@@ -1,0 +1,10 @@
+#+TITLE: Gnus Konfiguration
+#+OPTIONS: toc:nil
+
+Anleitung für den News und Mailreader Gnus.
+
+Einführung: [[file:Readme-01-gnus-mini.org][gnus-mini]]
+
+Ich will mehr: [[file:Readme-02-gnus-midi.org][gnus-midi]]
+
+Ich bin süchtig: [[file:Readme-03-gnus-maxi.org][gnus-maxi]]
