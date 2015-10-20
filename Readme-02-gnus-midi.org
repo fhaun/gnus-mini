@@ -12,11 +12,12 @@ alle Einstellung in der =~/.gnus.el= gemacht.
    - [[#mail-versenden][Mail versenden]]
    - [[#gmail-imap][Gmail Imap]]
    - [[#mail-abholen-über-pop3-und-spool][Mail abholen über pop3 und spool]]
+ - [[#archiv-gruppen-festlegen][Archiv Gruppen festlegen]]
  - [[#references-und-message-ids-finden][References und Message-ID's finden]]
  - [[#warnung-ausgeben-bei-mail-antwort-in-news][Warnung ausgeben bei Mail Antwort in News]]
- - [[#visuelle-verbesserungen][Visuelle Verbesserungen]]
-   - [[#aktuelle-zeile-hervorheben][Aktuelle Zeile hervorheben]]
-   - [[#threading-zeichen-aufhübschen][Threading Zeichen aufhübschen]]
+ - [[#aktuelle-zeile-hervorheben][Aktuelle Zeile hervorheben]]
+ - [[#threading-aufhübschen][Threading aufhübschen]]
+ - [[#summary-line-format][Summary Line Format]]
  - [[#posting-styles][Posting Styles]]
    - [[#x-face-header-über-posting-styles-einstellen][X-face Header über Posting Styles einstellen]]
    - [[#noch-mehr-posting-styles][Noch mehr Posting Styles]]
@@ -128,6 +129,26 @@ Damit Gnus die Mail auch sofort holt, dies hier eintragen:
   (setq nnml-get-new-mail t)
 #+END_SRC
 
+* Archiv Gruppen festlegen
+
+Eigene Beiträge werden in sogenannten Archiv Gruppen gespeichert. In
+diesem Beispiel wird das =nnml= Backend gewählt, d.h. für jeden Beitrag
+wird eine Datei angelegt.
+
+#+BEGIN_SRC emacs-lisp
+  (setq gnus-message-archive-group
+        '((if (message-news-p)
+              (concat "nnml:news-send-"
+                      (format-time-string "%Y" (current-time)))
+            (concat "nnml:mail-send-"
+                    (format-time-string "%Y" (current-time))))))
+#+END_SRC
+
+Man erhält hiermit zwei Ordner mit "mail-send-JAHR" und
+"news-send-JAHR" Will man noch in Monate unterteilen, für
+~format-time-string~ =%Y-%m= wählen. Für die Ordner kann man natürlich
+jeden anderen Namen wählen.
+
 * References und Message-ID's finden
 
 Beispiel um für die Suche nach References und Message-ID's weitere
@@ -147,9 +168,9 @@ Newsserver einzubeziehen.
   (setq gnus-confirm-mail-reply-to-news t)
 #+END_SRC
 
-* Visuelle Verbesserungen
+* Aktuelle Zeile hervorheben
 
-** Aktuelle Zeile hervorheben
+Den ~hl-line-mode~ für Server, Group und Summary Buffer aktivieren.
 
 #+BEGIN_SRC emacs-lisp
   (add-hook 'gnus-server-mode-hook 'hl-line-mode)
@@ -157,7 +178,7 @@ Newsserver einzubeziehen.
   (add-hook 'gnus-summary-mode-hook 'hl-line-mode)
 #+END_SRC
 
-** Threading Zeichen aufhübschen
+* Threading aufhübschen
 
 #+BEGIN_SRC emacs-lisp
   (when (display-graphic-p)
@@ -170,6 +191,62 @@ Newsserver einzubeziehen.
      gnus-sum-thread-tree-vertical        "│ "
      gnus-sum-thread-tree-single-leaf     "╰─► "))
 #+END_SRC
+
+Die Einrückung im Thread ist default vier, hiermit setzt man das auf
+zwei.
+
+#+BEGIN_SRC emacs-lisp
+  (setq gnus-thread-indent-level 2)
+#+END_SRC
+
+Das folgende ist Geschmachssache, Ich mag es nicht wenn Beiträge ohne
+Root im Thread einsortiert werden.
+
+#+BEGIN_SRC emacs-lisp
+  (setq gnus-summary-make-false-root nil)
+#+END_SRC
+
+Falls doch alles einsortiert werden soll, schaltet man hiermit die
+wiederholte Anzeige des Subjects aus.
+
+#+BEGIN_SRC emacs-lisp
+  (setq gnus-summary-same-subject "")
+#+END_SRC
+
+* Summary Line Format
+
+Hiermit steuert man welche Informatinen die Zeilen im *Summary Buffer* anzeigen.
+
+[[file:images/gnus-sum-small.jpg]]
+
+Hier mal ein Beispiel wie man ~gnus-summary-line-format~ über Gnus
+Parameter setzt. Das =.*= match auf alle Gruppen.
+
+#+BEGIN_SRC emacs-lisp
+  (setq gnus-parameters
+        '((".*"
+           (gnus-summary-line-format
+            "%d %R%U%z%* %B %[%-20,20n%] %s\n"))))
+#+END_SRC
+
+Mit gnus-parameters ist man flexibler als die Variable direkt zu
+setzen. So kann ich für den Ordner wo sich die gesendeten Beiträge
+befinden, Threading und Scoring ausschalten und andere Werte für
+~gnus-summary-line-format~ setzen.
+
+#+BEGIN_SRC emacs-lisp
+  (setq gnus-parameters
+        '((".*"
+           (gnus-summary-line-format
+            "%d %R%U%z%* %B %[%-20,20n%] %s\n"))
+          ("news-send"
+           (gnus-summary-line-format
+            "%o %R%U%z%* %B %[%-20,20n%] %s\n")
+           (gnus-use-scoring nil)
+           (gnus-show-threads nil))))
+#+END_SRC
+
+Mehr Infos im Manual oder Online unter [[https://www.gnu.org/software/emacs/manual/html_node/gnus/Group-Parameters.html#Group-Parameters][Group Parameters]]
 
 * Posting Styles
 

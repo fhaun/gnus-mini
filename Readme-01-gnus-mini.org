@@ -390,6 +390,10 @@ So, hier ist *gnus-mini* zu Ende.
 Für den Anfang empfehle ich mal zu gucken wie Emacs so tickt. Dazu im
 Menü auf Help gehen und "Emacs Tutorial (choose language)" wählen.
 
+Hilfe zu Funktionen und Variablen erhält man mit =C-h f= und =C-h v=
+und sofern vorhanden kann man mit =C-h S= den Begriff unter dem Cursor
+im Info Manual finden. Daneben ist =F1 ?= sehr hilfreich.
+
 Mit Gnus würde ich auch erstmal ein wenig rumspielen bevor man
 ernsthaft damit arbeitet. Befehle können auch über das Menü gewählt
 werden, da steht außerdem der entsprechende Tastatur Befehl bei.
@@ -397,7 +401,10 @@ werden, da steht außerdem der entsprechende Tastatur Befehl bei.
 Wenn man meint alles im Griff zu haben und den ganzen Plumpquatsch der
 ersten Spielerei loswerden will, kann man folgende Verzeichnisse und
 Dateien löschen: =~/Mail/=, =~/News/=, =~/.newsrc= und
-=~/.newsrc.eld=. Gnus fängt dann wieder bei null an.
+=~/.newsrc.eld=. Und falls vorhanden =#.newsrc-dribble#= und
+=.newsrc-dribble=.
+
+Gnus fängt dann wieder bei null an.
 
 * Weitere Hilfe
 
