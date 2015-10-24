@@ -63,7 +63,8 @@ Nun die Systemsteuerung öffnen.
 Systemsteuerung /Alle-Systemsteuerungselemente /System
 /Erweiterte-Systemeigenschaften /Umgebungsvariablen. Bei
 Benutzervariablen für mustermann *Neu* klicken. Name der Variablen
-*HOME*, Wert *c:\users\mustermann\home*.
+*HOME*, Wert *c:/users/mustermann/home*. Auf die Schrägstriche im Pfad
+achten.
 
 Jetzt einmal ausloggen wieder einloggen damit die Umgebungsvariable
 HOME ausgelesen werden kann.
