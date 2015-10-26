@@ -3,6 +3,7 @@
 
 * Inhalt							   :TOC_4_gh:
  - [[#vorschau-der-nachricht-die-man-gerade-schreibt][Vorschau der Nachricht die man gerade schreibt]]
+ - [[#unicode-zeichen-einfügen][Unicode Zeichen einfügen]]
 
 * Vorschau der Nachricht die man gerade schreibt
 
@@ -34,3 +35,28 @@ man ein paar Einstellungen verändert hat und mal sehen möchte wie die
 Nachricht abgeschickt würde.
 
 [[file:images/gnus-art-raw-preview.jpg]]
+
+* Unicode Zeichen einfügen
+
+Um mal eben ein Unicode Smiley oder ähnliches einzufügen gibt es für
+Emacs ein Paket. Um Pakete zu installieren ist folgender Code in der
+=~/.emacs= einzutragen.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'package)
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.org/packages/"))
+
+  (package-initialize)
+#+END_SRC
+
+Danach dann das Paket =counsel= mit ~M-x package-install RET counsel
+RET~ installieren.
+
+Danach kann man dann mit ~M-x counsel-unicode-char RET~ ein Unicode
+Zeichen wählen. Einfach smil, fist, hand, cat, thumb usw. tippen.
+
+Mit  ~(global-set-key (kbd "<f12> u") 'counsel-unicode-char)~ legt man
+die Funktion global auf 'F12 u'.
+
+[[file:images/emacs-select-unicode.jpg]]

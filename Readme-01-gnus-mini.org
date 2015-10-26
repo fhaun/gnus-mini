@@ -3,11 +3,11 @@
 
 # toc generieren: toc-org-insert-toc
 
-Minimal Setup für Gnus. Plus einige Besonderheiten um Emacs/Gnus unter
-Windows einzurichten. In diesem Dokument geht es wirklich nur darum,
-mit dem *minimalstem* Setup News von genau *einem* Server mit Gnus zu
-lesen und zu schreiben. Weitere Einstellungen sind in [[file:Readme-gnus-midi.org][gnus-midi]] zu
-finden.
+Minimales Setup für Gnus. Plus einige Besonderheiten um Emacs/Gnus
+unter Windows einzurichten. In diesem Dokument geht es wirklich nur
+darum, mit dem *minimalstem* Setup News von genau *einem* Server mit
+Gnus zu lesen und zu schreiben. Weitere Einstellungen sind in
+[[file:Readme-gnus-midi.org][gnus-midi]] zu finden.
 
 * Inhalt							   :TOC_4_gh:
  - [[#das-home-verzeichnis][Das HOME Verzeichnis]]
