@@ -50,8 +50,8 @@ Emacs ein Paket. Um Pakete zu installieren ist folgender Code in der
   (package-initialize)
 #+END_SRC
 
-Danach dann das Paket =counsel= mit ~M-x package-install RET counsel
-RET~ installieren.
+Das Paket =counsel= wird mit ~M-x package-install RET counsel RET~
+installiert.
 
 Danach kann man dann mit ~M-x counsel-unicode-char RET~ ein Unicode
 Zeichen wählen. Einfach smil, fist, hand, cat, thumb usw. tippen.
