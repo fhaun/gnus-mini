@@ -59,5 +59,4 @@ Zeichen wählen. Einfach smil, fist, hand, cat, thumb usw. tippen.
 Mit  ~(global-set-key (kbd "<f12> u") 'counsel-unicode-char)~ legt man
 die Funktion global auf 'F12 u'.
 
-#+ATTR_HTML: width="664px"
 [[file:images/emacs-select-unicode.jpg]]
