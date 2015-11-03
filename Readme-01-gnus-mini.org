@@ -201,6 +201,11 @@ mit den Zugangsdaten ersetzen.
 
 =machine reader.albasani.net login LOGIN password PASSWORT=
 
+Vorsicht bei Newsservern die auch ohne Anmeldung ein paar Gruppen
+anbieten. Hier muss man die Anmeldung erzwingen.
+
+=machine NEWSSERVER login LOGIN password PASSWORT force yes=
+
 * Name und Mailadresse
 
 Da Name und Mailadresse auch für andere Dinge im Emacs sinnvoll sind,
