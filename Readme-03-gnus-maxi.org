@@ -4,6 +4,7 @@
 * Inhalt							   :TOC_4_gh:
  - [[#vorschau-der-nachricht-die-man-gerade-schreibt][Vorschau der Nachricht die man gerade schreibt]]
  - [[#unicode-zeichen-einfügen][Unicode Zeichen einfügen]]
+ - [[#zufalls-signaturen][Zufalls Signaturen]]
 
 * Vorschau der Nachricht die man gerade schreibt
 
@@ -60,3 +61,42 @@ Mit  ~(global-set-key (kbd "<f12> u") 'counsel-unicode-char)~ legt man
 die Funktion global auf 'F12 u'.
 
 [[file:images/emacs-select-unicode.jpg]]
+
+* Zufalls Signaturen
+
+Möglichkeite eins, alle Signaturen in eine Datei speichern und die
+Signaturen mit zwei Leerzeilen trennen.
+
+#+BEGIN_SRC emacs-lisp
+  (defun my-sig-from-file (sigfile)    
+    "Read random signatur from SIGFILE. Signatures must be
+  separated by two empty lines."
+    (let* ((sigdata (with-temp-buffer
+                      (insert-file-contents sigfile)
+                      (split-string (buffer-string) "^\n\n" t)))
+           (sigcount (length sigdata)))
+      (nth (random sigcount) sigdata)))
+#+END_SRC
+
+Angemommen die Signaturen befinden sich in der Datei =~/sigdata=, dann
+sieht der Aufruf in gnus-posting-styles so aus.
+
+#+BEGIN_SRC emacs-lisp
+  (signature (my-sig-from-file "~/sigdata"))
+#+END_SRC
+
+Möglichkeite zwei, die Signuaturen sind in einzelne Dateien mit der
+Endung =sigf= gespeichert und liegen im Verzeichnis =~/sigdir=.
+
+#+BEGIN_SRC emacs-lisp
+  (defun my-sig-from-dir (sigdir pattern)
+    "Return random file from SIGDIR with PATTERN."
+    (let ((flist (file-expand-wildcards (concat sigdir pattern) nil)))
+      (nth (random (length flist)) flist)))
+#+END_SRC
+
+Der Eintrag für gnus-posting-styles lautet dann.
+
+#+BEGIN_SRC emacs-lisp
+  (signature-file (my-sig-from-dir "~/sigdir/" "*.sigf"))
+#+END_SRC
