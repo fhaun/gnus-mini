@@ -104,7 +104,7 @@ Der Eintrag für gnus-posting-styles lautet dann.
 
 * Summary Buffer maximieren
 
-Brauche ich immer wieder, von haher habe ich mir das auf die Tastatur
+Brauche ich immer wieder, von daher habe ich mir das auf die Tastatur
 gelegt.
 
 #+BEGIN_SRC emacs-lisp
