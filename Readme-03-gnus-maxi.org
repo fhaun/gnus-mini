@@ -5,6 +5,7 @@
  - [[#vorschau-der-nachricht-die-man-gerade-schreibt][Vorschau der Nachricht die man gerade schreibt]]
  - [[#unicode-zeichen-einfügen][Unicode Zeichen einfügen]]
  - [[#zufalls-signaturen][Zufalls Signaturen]]
+ - [[#summary-buffer-maximieren][Summary Buffer maximieren]]
 
 * Vorschau der Nachricht die man gerade schreibt
 
@@ -68,7 +69,7 @@ Möglichkeite eins, alle Signaturen in eine Datei speichern und die
 Signaturen mit zwei Leerzeilen trennen.
 
 #+BEGIN_SRC emacs-lisp
-  (defun my-sig-from-file (sigfile)    
+  (defun my-sig-from-file (sigfile)
     "Read random signatur from SIGFILE. Signatures must be
   separated by two empty lines."
     (let* ((sigdata (with-temp-buffer
@@ -99,4 +100,24 @@ Der Eintrag für gnus-posting-styles lautet dann.
 
 #+BEGIN_SRC emacs-lisp
   (signature-file (my-sig-from-dir "~/sigdir/" "*.sigf"))
+#+END_SRC
+
+* Summary Buffer maximieren
+
+Brauche ich immer wieder, von haher habe ich mir das auf die Tastatur
+gelegt.
+
+#+BEGIN_SRC emacs-lisp
+  (defun my-del-other-w-recenter ()
+    "Delete other window and recenter the current window."
+    (interactive)
+    (delete-other-windows)
+    (recenter))
+#+END_SRC
+
+Die Funktion habe ich hiermit auf die 'Einfügen' Taste gelegt.
+
+#+BEGIN_SRC emacs-lisp
+  (define-key gnus-summary-mode-map [(insert)]
+    'my-del-other-w-recenter)
 #+END_SRC
