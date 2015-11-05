@@ -247,7 +247,7 @@ befinden, Threading und Scoring ausschalten und andere Werte für
            (gnus-show-threads nil))))
 #+END_SRC
 
-Mehr Infos im Manual oder Online unter [[https://www.gnu.org/software/emacs/manual/html_node/gnus/Group-Parameters.html#Group-Parameters][Group Parameters]]
+Mehr Infos im Manual oder Online unter [[https://www.gnu.org/software/emacs/manual/html_node/gnus/Group-Parameters.html#Group-Parameters][Group Parameters]].
 
 * Posting Styles
 
