@@ -104,8 +104,7 @@ Der Eintrag für gnus-posting-styles lautet dann.
 
 * Summary Buffer maximieren
 
-Brauche ich immer wieder, von daher habe ich mir das auf die Tastatur
-gelegt.
+Zusätzlich wird die aktuelle Position zentriert.
 
 #+BEGIN_SRC emacs-lisp
   (defun my-del-other-w-recenter ()
