@@ -21,6 +21,7 @@ alle Einstellung in der =~/.gnus.el= gemacht.
  - [[#posting-styles][Posting Styles]]
    - [[#x-face-header-über-posting-styles-einstellen][X-face Header über Posting Styles einstellen]]
    - [[#noch-mehr-posting-styles][Noch mehr Posting Styles]]
+ - [[#scoring][Scoring]]
 
 * Passwort für cancel und supersede
 
@@ -332,3 +333,19 @@ das Wörterbuch wechselt, einen Reply Header setzt und so weiter.
            )
           ))
 #+END_SRC
+
+* Scoring
+
+Hier ein Beispiel, wie man die eigenen Artikel und die direkten
+Antworten darauf höher scored. Im Verzeichnis =~/News= die Datei
+=all.SCORE= anlegen. Hier im Beispiel benutze ich den Domainpart
+meiner Message ID.
+
+#+BEGIN_SRC emacs-lisp
+  (("message-id"
+    ("fhaun.de" 1 nil s))
+   ("references"
+    ("fhaun.de>$" 1 nil r)))
+#+END_SRC
+
+Mehr Infos im Manual oder Online unter [[http://www.gnu.org/software/emacs/manual/html_node/gnus/Scoring.html#Scoring][Scoring]].
