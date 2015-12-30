@@ -422,10 +422,13 @@ de.comm.software.gnus
 
 =C-h i= drücken und zum Gnus Abschnitt navigieren.
 
+** Gnus Manual Online
+
+[[http://www.gnus.org/manual.html]]
+
 ** GnusTutorial im EmacsWiki (englisch)
 
 http://www.emacswiki.org/emacs/GnusTutorial
-
 
 ** Kleines Einführungs Video (englisch)
 
