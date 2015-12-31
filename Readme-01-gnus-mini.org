@@ -37,7 +37,7 @@ Gnus zu lesen und zu schreiben. Weitere Einstellungen sind in
 
 * Das HOME Verzeichnis
 
-Unix/Linux User müssen da jetzt nix machen. Aber unter Windows ist
+Unix/Linux User müssen da jetzt nichts machen. Aber unter Windows ist
 etwas Vorbereitung nötig.
 
 In dem HOME Verzeichnis liegen später die Konfigurationsdateien für
