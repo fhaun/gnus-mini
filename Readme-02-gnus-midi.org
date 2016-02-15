@@ -274,7 +274,7 @@ Styles]].
            (Organization "Mail")
            )
           ("\\btest\\b"
-           ;; Einstellung für die Gruppe de.test
+           ;; Einstellung für Test Gruppen
            (Organization "Test")
            )
           ))
