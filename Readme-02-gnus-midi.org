@@ -273,7 +273,7 @@ Styles]].
            ;; Einstellung für alle Mailgruppen
            (Organization "Mail")
            )
-          ("de\\.test"
+          ("\\btest\\b"
            ;; Einstellung für die Gruppe de.test
            (Organization "Test")
            )
