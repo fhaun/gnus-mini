@@ -326,7 +326,7 @@ das Wörterbuch wechselt, einen Reply Header setzt und so weiter.
            )
           ("^gmane"
            (eval (ispell-change-dictionary "english")))
-          ("\\btest\bb"
+          ("\\btest\\b"
            (Organization "Test")
            (Keywords "ignore, no reply")
            (body "\nDies ist der Test aller Tests.")
