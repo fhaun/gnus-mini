@@ -238,7 +238,7 @@ In die ~/.gnus.el das hier:
 oder das hier in die ~/.emacs:
 
 #+BEGIN_SRC emacs-lisp
-  (setq system-name "yourmachine.yourdomain.tld")
+  (setq mail-host-address "yourmachine.yourdomain.tld")
 #+END_SRC
 
 'yourmachine' ist der Computer Name und 'yourdomain.tld' eine Domain
