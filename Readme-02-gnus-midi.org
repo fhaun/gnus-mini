@@ -39,6 +39,14 @@ Maschine man gerade ist Artikel canceln bzw. superseden.
         canlock-password-for-verify canlock-password)
 #+END_SRC
 
+Canceln und superseden über canlock-verify und damit unabhängig von
+der Mail Adresse die man gerade benutzt.
+
+#+BEGIN_SRC emacs-lisp
+  (setq message-shoot-gnksa-feet 'canlock-verify)
+#+END_SRC
+
+
 * Zweiten Newsserver eintragen
 
 Bisher wurde nur ein Newsserver angegeben, um von einem weiteren
